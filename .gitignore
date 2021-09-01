@@ -2,5 +2,7 @@
 .idea
 data
 *.js
+*.js.map
 static
-node_modulesclaer
+node_modules
+.DS_Store
