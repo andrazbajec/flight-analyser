@@ -1,0 +1,15 @@
+{
+  "name": "flight-analyser",
+  "version": "1.0.0",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "dayjs": "^1.10.6",
+    "dotenv": "^10.0.0",
+    "mysql2": "^2.3.0"
+  },
+  "devDependencies": {
+    "@types/node": "^16.7.2",
+    "ts-node": "^10.2.1",
+    "typescript": "^4.3.5"
+  }
+}
