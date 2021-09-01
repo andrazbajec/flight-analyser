@@ -1,0 +1,18 @@
+{
+    "name": "andrazbajec/flight-analyser-api",
+    "authors": [
+        {
+            "name": "andrazbajec",
+            "email": "andraz.bajec27@gmail.com"
+        }
+    ],
+    "require": {
+        "vlucas/phpdotenv": "^5.3",
+        "ext-pdo": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Controller\\": "src/controller/"
+        }
+    }
+}
