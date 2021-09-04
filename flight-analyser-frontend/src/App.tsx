@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import './App.css';
 import FetchHelper from "./helper/FetchHelper";
-import { QuoteDB, AppState } from "./interface/BaseInterface";
+import {QuoteDB, AppState} from "./interface/BaseInterface";
 import dayjs from "dayjs";
 
 const App = () => {
@@ -9,9 +9,11 @@ const App = () => {
         Quotes: []
     });
 
+    const baseUrl = process.env.REACT_APP_API_URL ?? '';
+
     const getQuotes = async () => {
-        const quotes: QuoteDB[] = await FetchHelper.get('http://localhost:8000/getQuotes') as QuoteDB[];
-        setState({ ...getState, Quotes: quotes });
+        const quotes: QuoteDB[] = await FetchHelper.get(`${baseUrl}/getQuotes`) as QuoteDB[];
+        setState({...getState, Quotes: quotes});
     }
 
     useEffect(() => {
