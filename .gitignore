@@ -1,5 +1,4 @@
 .env
-.idea
 data
 *.js
 *.js.map

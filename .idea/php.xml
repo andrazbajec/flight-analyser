@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PhpIncludePathManager">
+    <include_path>
+      <path value="$PROJECT_DIR$/flight-analyser-api/vendor/composer" />
+      <path value="$PROJECT_DIR$/flight-analyser-api/vendor/symfony/polyfill-mbstring" />
+      <path value="$PROJECT_DIR$/flight-analyser-api/vendor/symfony/polyfill-php80" />
+      <path value="$PROJECT_DIR$/flight-analyser-api/vendor/graham-campbell/result-type" />
+      <path value="$PROJECT_DIR$/flight-analyser-api/vendor/symfony/polyfill-ctype" />
+      <path value="$PROJECT_DIR$/flight-analyser-api/vendor/vlucas/phpdotenv" />
+      <path value="$PROJECT_DIR$/flight-analyser-api/vendor/phpoption/phpoption" />
+    </include_path>
+  </component>
+  <component name="PhpProjectSharedConfiguration" php_language_level="8.0" />
+</project>
