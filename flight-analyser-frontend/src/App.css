@@ -3,7 +3,7 @@
     width: 100%;
 }
 
-.quotes-table tr:first-child td {
+.quotes-table thead tr:first-child td {
     font-weight: bold;
     background-color: #BA3B46 !important;
     border-top: none;
