@@ -1,13 +1,15 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import FetchHelper from "./helper/FetchHelper";
-import {QuoteDB, AppState} from "./interface/BaseInterface";
+import { QuoteDB, AppState } from "./interface/BaseInterface";
 import dayjs from "dayjs";
 
 const App = () => {
     const [getState, setState] = useState<AppState>({
         Quotes: []
     });
+
+    let counter = 0;
 
     const baseUrl = process.env.REACT_APP_API_URL ?? '';
 
@@ -23,6 +25,7 @@ const App = () => {
     return (
         <div className="App">
             <table className="quotes-table">
+                <thead>
                 <tr>
                     <td>ID</td>
                     <td>Price</td>
@@ -32,10 +35,13 @@ const App = () => {
                     <td>Departure date</td>
                     <td>Country of booking</td>
                 </tr>
+                </thead>
+                <tbody>
                 {
                     getState.Quotes.map((quote: QuoteDB) => {
+                        counter++;
                         return (
-                            <tr>
+                            <tr key={`quote-table-row-${counter}`}>
                                 <td>{quote.QuoteID}</td>
                                 <td>{quote.Price} €</td>
                                 <td>{quote.Direct ? 'yes' : 'no'}</td>
@@ -47,6 +53,7 @@ const App = () => {
                         )
                     })
                 }
+                </tbody>
             </table>
         </div>
     );
