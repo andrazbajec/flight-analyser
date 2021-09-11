@@ -11,7 +11,8 @@ import {
     SortKeysEnum
 } from "./interface/BaseInterface";
 import dayjs, { Dayjs } from "dayjs";
-import { Button, HStack, Tooltip } from "@chakra-ui/react";
+import { Button, HStack, IconButton, Spinner, Tooltip } from "@chakra-ui/react";
+import { RepeatIcon } from "@chakra-ui/icons";
 
 const App = () => {
     const [getState, setState] = useState<AppState>({
@@ -26,18 +27,41 @@ const App = () => {
         Sorting: {
             Key: SortKeysEnum.QUOTE_ID,
             Ascending: true
-        }
+        },
+        LoadingQuotes: false
     });
 
     let counter = 0;
 
     const baseUrl = process.env.REACT_APP_API_URL ?? '';
 
-    const getQuotes = () => {
+    const getQuotes = (forceReload: boolean = false) => {
+        setState({...getState, LoadingQuotes: true});
+
+        if (!forceReload) {
+            const quoteData = localStorage.getItem('quote-data') ?? '';
+
+            // Try to load quotes from localstorage
+            try {
+                const parsedData = JSON.parse(quoteData);
+                const quotes: QuoteDB[] = parsedData.quotes;
+                const timeAdded: Dayjs = dayjs(parsedData.timeAdded);
+                if (timeAdded.isValid() && timeAdded.add(10, 'm').isAfter(dayjs(), 's')) {
+                    setState({...getState, Quotes: quotes, OriginalQuotes: quotes, LoadingQuotes: false});
+                    return;
+                }
+            } catch (e) {
+                // Fall through
+            }
+        }
+
         FetchHelper.get(`${baseUrl}/getQuotes`)
             .then((quotes: QuoteDB[]) => {
-                setState({...getState, Quotes: quotes, OriginalQuotes: quotes});
-
+                setState({...getState, Quotes: quotes, OriginalQuotes: quotes, LoadingQuotes: false});
+                localStorage.setItem('quote-data', JSON.stringify({
+                    timeAdded: dayjs().toISOString(),
+                    quotes: quotes
+                }));
             });
     }
 
@@ -160,7 +184,15 @@ const App = () => {
 
     return (
         <div className="App">
-            <HStack justify="space-evenly">
+            <HStack justify="space-evenly" fontSize="md">
+                <Tooltip label="Reload quotes">
+                    <IconButton aria-label="Reload quotes"
+                                icon={getState.LoadingQuotes ? <Spinner size="xs"/> : <RepeatIcon/>}
+                                colorScheme="teal"
+                                onClick={() => getQuotes(true)}
+                                disabled={getState.LoadingQuotes}
+                    />
+                </Tooltip>
                 <Button onClick={groupQuotes}
                         colorScheme="teal"
                         disabled={getState.Groupings.Default}
