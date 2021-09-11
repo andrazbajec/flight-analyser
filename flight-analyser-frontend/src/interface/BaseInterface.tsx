@@ -1,5 +1,20 @@
 export interface AppState {
     Quotes: QuoteDB[];
+    OriginalQuotes: QuoteDB[];
+    Groupings: Groupings;
+    Sorting: Sorting;
+}
+
+interface Groupings {
+    Default: boolean;
+    Date: boolean;
+    Origin: boolean;
+    Destination: boolean;
+}
+
+interface Sorting {
+    Key: SortKeys;
+    Ascending: boolean;
 }
 
 export interface QuoteDB {
@@ -12,3 +27,38 @@ export interface QuoteDB {
     DateAdded: string;
     Country: string;
 }
+
+export interface DateGroupings {
+    [key: string]: QuoteDB
+}
+
+export enum GroupKeysEnum {
+    RESET = 'reset',
+    DATE = 'date',
+    ORIGIN = 'origin',
+    DESTINATION = 'destination'
+}
+
+export type GroupKeys = GroupKeysEnum.RESET
+    | GroupKeysEnum.DATE
+    | GroupKeysEnum.ORIGIN
+    | GroupKeysEnum.DESTINATION;
+
+export enum SortKeysEnum {
+    QUOTE_ID = 'QuoteID',
+    PRICE = 'Price',
+    DIRECT = 'Direct',
+    ORIGIN_ID = 'OriginID',
+    DESTINATION_ID = 'DestinationID',
+    DEPARTURE_DATE = 'DepartureDate',
+    COUNTRY = 'Country'
+}
+
+export type SortKeys =
+    SortKeysEnum.QUOTE_ID
+    | SortKeysEnum.PRICE
+    | SortKeysEnum.DIRECT
+    | SortKeysEnum.ORIGIN_ID
+    | SortKeysEnum.DESTINATION_ID
+    | SortKeysEnum.DEPARTURE_DATE
+    | SortKeysEnum.COUNTRY;

@@ -3,11 +3,16 @@
     width: 100%;
 }
 
-.quotes-table thead tr:first-child td {
+.quotes-table thead td {
     font-weight: bold;
     background-color: #BA3B46 !important;
     border-top: none;
     color: white;
+}
+
+.quotes-table thead td:hover {
+    cursor: pointer;
+    text-decoration: underline;
 }
 
 .quotes-table tr:nth-child(2n) td {
