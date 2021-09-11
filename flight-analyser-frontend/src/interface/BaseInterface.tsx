@@ -3,6 +3,7 @@ export interface AppState {
     OriginalQuotes: QuoteDB[];
     Groupings: Groupings;
     Sorting: Sorting;
+    LoadingQuotes: boolean;
 }
 
 interface Groupings {
