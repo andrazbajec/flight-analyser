@@ -22,10 +22,13 @@ export interface QuoteDB {
     Price: number;
     Direct: number;
     OriginID: number;
+    Origin: string;
     DestinationID: number;
+    Destination: string;
     DepartureDate: number;
     DateAdded: string;
     Country: string;
+    CountryName: string;
 }
 
 export interface DateGroupings {
@@ -49,7 +52,9 @@ export enum SortKeysEnum {
     PRICE = 'Price',
     DIRECT = 'Direct',
     ORIGIN_ID = 'OriginID',
+    ORIGIN = 'Origin',
     DESTINATION_ID = 'DestinationID',
+    DESTINATION = 'Destination',
     DEPARTURE_DATE = 'DepartureDate',
     COUNTRY = 'Country'
 }

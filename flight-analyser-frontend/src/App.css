@@ -18,6 +18,7 @@
 .quotes-table tr:nth-child(2n) td {
     background-color: #61c9a8;
 }
+
 .quotes-table tr:nth-child(2n - 1) td {
     background-color: #a4e0cd;
 }
@@ -26,4 +27,8 @@
     text-align: center;
     padding: 5px;
     border-top: 1px solid black;
+}
+
+.d-inline {
+    display: inline;
 }
