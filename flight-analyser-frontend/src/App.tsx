@@ -11,7 +11,7 @@ import {
     SortKeysEnum
 } from "./interface/BaseInterface";
 import dayjs, { Dayjs } from "dayjs";
-import { Button, HStack } from "@chakra-ui/react";
+import { Button, HStack, Tooltip } from "@chakra-ui/react";
 
 const App = () => {
     const [getState, setState] = useState<AppState>({
@@ -122,8 +122,8 @@ const App = () => {
                     continue;
                 }
 
-                let currValue: string | number = String(currQuote[type]).trim();
-                let nextValue: string | number = String(nextQuote[type]).trim();
+                let currValue: string | number = String(currQuote[type]).trim().toLowerCase();
+                let nextValue: string | number = String(nextQuote[type]).trim().toLowerCase();
 
                 if (type === SortKeysEnum.DEPARTURE_DATE) {
                     const currDate: Dayjs = dayjs(currValue, 'DD.MM.YYYY');
@@ -138,12 +138,10 @@ const App = () => {
                     continue;
                 }
 
-                currValue = Number.isNaN(currValue)
-                    ? currValue
-                    : Number.parseFloat(String(currValue));
-                nextValue = Number.isNaN(nextValue)
-                    ? nextValue
-                    : Number.parseFloat(String(nextValue));
+                if ([SortKeysEnum.ORIGIN_ID, SortKeysEnum.DESTINATION_ID, SortKeysEnum.QUOTE_ID, SortKeysEnum.PRICE].includes(type)) {
+                    currValue = Number.parseFloat(String(currValue));
+                    nextValue = Number.parseFloat(String(nextValue));
+                }
 
                 if (currValue > nextValue) {
                     // Switch elements
@@ -197,9 +195,9 @@ const App = () => {
                 <tr>
                     <td onClick={sortQuotes} data-field={SortKeysEnum.QUOTE_ID}>ID</td>
                     <td onClick={sortQuotes} data-field={SortKeysEnum.PRICE}>Price</td>
-                    <td onClick={sortQuotes} data-field={SortKeysEnum.DIRECT}>Is direct flight</td>
-                    <td onClick={sortQuotes} data-field={SortKeysEnum.ORIGIN_ID}>Origin ID</td>
-                    <td onClick={sortQuotes} data-field={SortKeysEnum.DESTINATION_ID}>Destination ID</td>
+                    <td onClick={sortQuotes} data-field={SortKeysEnum.DIRECT}>Is direct</td>
+                    <td onClick={sortQuotes} data-field={SortKeysEnum.ORIGIN}>Origin</td>
+                    <td onClick={sortQuotes} data-field={SortKeysEnum.DESTINATION}>Destination</td>
                     <td onClick={sortQuotes} data-field={SortKeysEnum.DEPARTURE_DATE}>Departure date</td>
                     <td onClick={sortQuotes} data-field={SortKeysEnum.COUNTRY}>Country of booking</td>
                 </tr>
@@ -213,10 +211,17 @@ const App = () => {
                                 <td>{quote.QuoteID}</td>
                                 <td>{quote.Price} €</td>
                                 <td>{quote.Direct ? 'yes' : 'no'}</td>
-                                <td>{quote.OriginID}</td>
-                                <td>{quote.DestinationID}</td>
+                                <td>{quote.Origin}</td>
+                                <td>{quote.Destination}</td>
                                 <td>{dayjs(quote.DepartureDate).format('DD.MM.YYYY')}</td>
-                                <td>{quote.Country}</td>
+                                <td>
+                                    <Tooltip label={quote.CountryName} fontSize="md">
+                                        <img src={`https://www.countryflags.io/${quote.Country}/flat/32.png`}
+                                             alt="country-image"
+                                             className="d-inline"
+                                        />
+                                    </Tooltip>
+                                </td>
                             </tr>
                         )
                     })

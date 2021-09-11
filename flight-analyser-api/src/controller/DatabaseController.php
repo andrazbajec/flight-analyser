@@ -33,14 +33,53 @@ class DatabaseController
         }
     }
 
-    public function select (string $table, array $columns = ['*'], array $condition = []): array
+    /**
+     * @param string $table
+     * @param string[] $columns
+     * @param array $condition
+     * @param array $joins
+     * @return array
+     */
+    public function select(string $table, array $columns = ['*'], array $condition = [], array $joins = []): array
     {
-        $sqlColumns = '';
         $params = [];
+        $columnsSql = '';
+        $joinSql = '';
+
+        foreach ($columns as $name => $alias) {
+            // There is no alias on this column
+            if (is_int($name)) {
+                $name = $alias;
+                $alias = null;
+            }
+
+            // Add comma to separate columns
+            if (strlen($columnsSql)) {
+                $columnsSql .= ', ';
+            }
+
+            $columnsSql .= $name;
+
+
+            if ($alias) {
+                $columnsSql .= sprintf(' %s', $alias);
+            }
+        }
+
+        foreach ($joins as $join) {
+            $joinType = $join['Type'];
+            $joinTable = $join['Table'];
+            $fKey = $join['ForeignKey'];
+            $pKey = $join['PrimaryKey'];
+            $alias = $join['Alias'] ?? '';
+
+            $joinSql .= sprintf('%s JOIN %s %s ON %s = %s ', $joinType, $joinTable, $alias, $fKey, $pKey);
+        }
 
         $sql = sprintf(
-            "SELECT %s FROM $table",
-            implode(', ', $columns)
+            "SELECT %s FROM $table %s",
+            $columnsSql,
+            $joinSql
         );
 
         $stmt = $this->db->prepare($sql);

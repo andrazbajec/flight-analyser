@@ -16,6 +16,33 @@ class QuoteController
      */
     public function getQuotes(): array
     {
-        return $this->databaseController->select('Quote');
+        $columns = [
+            'Quote.*',
+            'Origin.Name' => 'Origin',
+            'Destination.Name' => 'Destination',
+            'Country.Name' => 'CountryName'
+        ];
+
+        $joins = [[
+            'Type' => 'INNER',
+            'Table' => 'Place',
+            'Alias' => 'Origin',
+            'ForeignKey' => 'Quote.OriginID',
+            'PrimaryKey' => 'Origin.PlaceID'
+        ], [
+            'Type' => 'INNER',
+            'Table' => 'Place',
+            'Alias' => 'Destination',
+            'ForeignKey' => 'Quote.DestinationID',
+            'PrimaryKey' => 'Destination.PlaceID'
+        ], [
+            'Type' => 'INNER',
+            'Table' => 'Country',
+            'ForeignKey' => 'Quote.Country',
+            'PrimaryKey' => 'Country.Code'
+        ]];
+
+        return $this->databaseController
+            ->select('Quote', $columns, [], $joins);
     }
 }
